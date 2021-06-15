@@ -1,10 +1,10 @@
 # Cropper.js
 
-[![Downloads](https://img.shields.io/npm/dm/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Version](https://img.shields.io/npm/v/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/cropperjs.svg)](https://unpkg.com/cropperjs/dist/cropper.common.js) [![Dependencies](https://img.shields.io/david/fengyuanchen/cropperjs.svg)](https://www.npmjs.com/package/cropperjs)
+[![Downloads](https://img.shields.io/npm/dm/@openregion/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Version](https://img.shields.io/npm/v/@openregion/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/@openregion/cropperjs.svg)](https://unpkg.com/@openregion/cropperjs/dist/cropper.common.js) [![Dependencies](https://img.shields.io/david/openregion/cropperjs.svg)](https://www.npmjs.com/package/@openregion/cropperjs)
 
-> JavaScript image cropper.
+JavaScript image cropper. This is a fork of [cropperjs](https://github.com/fengyuanchen/cropperjs).
 
-- [Website](https://fengyuanchen.github.io/cropperjs)
+- [Website](https://openregion.github.io/cropperjs)
 - [Photo Editor](https://fengyuanchen.github.io/photo-editor) - An advanced example of Cropper.js.
 - [jquery-cropper](https://github.com/fengyuanchen/jquery-cropper) - A jQuery plugin wrapper for Cropper.js.
 
@@ -63,8 +63,6 @@ In browser:
 <link  href="/path/to/cropper.css" rel="stylesheet">
 <script src="/path/to/cropper.js"></script>
 ```
-
-[cdnjs](https://github.com/cdnjs/cdnjs) provides CDN support for Cropper.js's CSS and JavaScript. You can find the links [here](https://cdnjs.com/libraries/cropperjs).
 
 ### Usage
 
@@ -313,6 +311,13 @@ Enable to crop the image automatically when initialized.
 - Default: `0.8` (80% of the image)
 
 It should be a number between 0 and 1. Define the automatic cropping area size (percentage).
+
+### holdExistingCropArea
+
+- Type: `Boolean`
+- Default: `true`
+
+Transform current crop area to new aspect ratio instead of reinitialize it.
 
 ### movable
 
@@ -903,6 +908,14 @@ Change the drag mode.
 
 **Tips:** You can toggle the "crop" and "move" mode by double click on the cropper.
 
+### getOptions()
+
+- (return  value):
+  - Type: `Object`
+  - Properties: see [options](#options)
+
+Output current options.
+
 [⬆ back to top](#table-of-contents)
 
 ## Events
@@ -1054,10 +1067,12 @@ Maintained under the [Semantic Versioning guidelines](https://semver.org/).
 
 ## License
 
-[MIT](https://opensource.org/licenses/MIT) © [Chen Fengyuan](https://chenfengyuan.com/)
+- [MIT](https://opensource.org/licenses/MIT) © 2021 [CIT Open Region](https://openregion.info/)
+- [MIT](https://opensource.org/licenses/MIT) © [Chen Fengyuan](https://chenfengyuan.com/)
 
 ## Related projects
 
+- [cropperjs](https://github.com/fengyuanchen/cropperjs) by @fengyuanchen
 - [angular-cropperjs](https://github.com/matheusdavidson/angular-cropperjs) by @matheusdavidson
 - [ember-cropperjs](https://github.com/danielthall/ember-cropperjs) by @danielthall
 - [iron-cropper](https://github.com/safetychanger/iron-cropper) by @safetychanger

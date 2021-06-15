@@ -135,6 +135,7 @@ declare namespace Cropper {
     dragMode?: DragMode;
     guides?: boolean;
     highlight?: boolean;
+    holdExistingCropArea?: boolean;
     initialAspectRatio?: number;
     minCanvasHeight?: number;
     minCanvasWidth?: number;
@@ -178,6 +179,7 @@ declare class Cropper {
   getCroppedCanvas(options?: Cropper.GetCroppedCanvasOptions): HTMLCanvasElement;
   getData(rounded?: boolean): Cropper.Data;
   getImageData(): Cropper.ImageData;
+  getOptions(): Cropper.Options;
   move(offsetX: number, offsetY?: number): Cropper;
   moveTo(x: number, y?: number): Cropper;
   replace(url: string, onlyColorChanged?: boolean): Cropper;
@@ -195,7 +197,7 @@ declare class Cropper {
   zoom(ratio: number): Cropper;
   zoomTo(ratio: number, pivot?: { x: number; y: number }): Cropper;
   static noConflict(): Cropper;
-  static setDefaults(options: Cropper.Options<EventTarget>): void;
+  static setDefaults(options: Cropper.Options): void;
 }
 
 declare module 'cropperjs' {

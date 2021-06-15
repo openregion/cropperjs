@@ -1,7 +1,7 @@
 {
-  "name": "cropperjs",
+  "name": "@openregion/cropperjs",
   "description": "JavaScript image cropper.",
-  "version": "1.5.12",
+  "version": "1.6.0",
   "main": "dist/cropper.common.js",
   "module": "dist/cropper.esm.js",
   "browser": "dist/cropper.js",
@@ -34,7 +34,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fengyuanchen/cropperjs.git"
+    "url": "git+https://github.com/openregion/cropperjs.git"
   },
   "keywords": [
     "image",
@@ -54,14 +54,15 @@
     "web"
   ],
   "author": {
-    "name": "Chen Fengyuan",
-    "url": "https://chenfengyuan.com/"
+    "name": "CIT Open Region",
+    "email": "info@openregion.info",
+    "url": "https://openregion.info/"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fengyuanchen/cropperjs/issues"
+    "url": "https://github.com/openregion/cropperjs/issues"
   },
-  "homepage": "https://fengyuanchen.github.io/cropperjs",
+  "homepage": "https://openregion.github.io/cropperjs",
   "devDependencies": {
     "@babel/core": "^7.14.5",
     "@babel/preset-env": "^7.14.5",
@@ -90,7 +91,6 @@
     "lint-staged": "^11.0.0",
     "mocha": "^9.0.0",
     "npm-run-all": "^4.1.5",
-    "postcss": "^8.3.2",
     "postcss-cli": "^8.3.1",
     "postcss-header": "^3.0.1",
     "postcss-import": "^14.0.2",
@@ -103,8 +103,11 @@
     "stylelint-order": "^4.1.0",
     "uglify-js": "^3.13.9"
   },
+  "peerDependencies": {
+    "postcss": "^8.2.6"
+  },
   "browserslist": [
-    "last 2 versions",
+    "last 4 versions",
     "> 1%",
     "not ie <= 8"
   ],

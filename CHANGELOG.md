@@ -1,5 +1,12 @@
 # Changelog
 
+## next
+## 1.6.0 (Jun 15, 2021)
+
+- New method and TS declaration for getting current options `getOptions()`
+- New option and TS declaration `holdExistingCropArea`
+- Updated npm dependencies
+
 ## 1.5.12 (Jun 12, 2021)
 
 - Fix the cropper responsive when only the height was changed (#835).

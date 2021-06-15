@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.5.12
- * https://fengyuanchen.github.io/cropperjs
+ * Cropper.js v1.6.0
+ * https://openregion.github.io/cropperjs
  *
- * Copyright 2015-present Chen Fengyuan
+ * Copyright 2015-present CIT Open Region
  * Released under the MIT license
  *
- * Date: 2021-06-12T08:00:17.411Z
+ * Date: 2021-06-15T06:45:26.061Z
  */
 
 'use strict';
@@ -232,6 +232,8 @@ var DEFAULTS = {
   autoCrop: true,
   // Define the percentage of automatic cropping area when initializes
   autoCropArea: 0.8,
+  // Transform current crop area to new aspect ratio instead of reinitialize it
+  holdExistingCropArea: false,
   // Enable to move the image
   movable: true,
   // Enable to rotate the image
@@ -1454,9 +1456,11 @@ var render = {
   initCropBox: function initCropBox() {
     var options = this.options,
         canvasData = this.canvasData;
+    var oldCropBoxData = assign({}, this.cropBoxData);
     var aspectRatio = options.aspectRatio || options.initialAspectRatio;
     var autoCropArea = Number(options.autoCropArea) || 0.8;
-    var cropBoxData = {
+    var holdExistingCropArea = options.holdExistingCropArea && Object.entries(oldCropBoxData).length > 0;
+    var cropBoxData = holdExistingCropArea && oldCropBoxData || {
       width: canvasData.width,
       height: canvasData.height
     };
@@ -1467,18 +1471,27 @@ var render = {
       } else {
         cropBoxData.width = cropBoxData.height * aspectRatio;
       }
+    } else if (holdExistingCropArea) {
+      return;
     }
 
     this.cropBoxData = cropBoxData;
-    this.limitCropBox(true, true); // Initialize auto crop area
+    this.limitCropBox(true, true); // The width/height of auto crop area must large than "minWidth/Height"
 
     cropBoxData.width = Math.min(Math.max(cropBoxData.width, cropBoxData.minWidth), cropBoxData.maxWidth);
-    cropBoxData.height = Math.min(Math.max(cropBoxData.height, cropBoxData.minHeight), cropBoxData.maxHeight); // The width/height of auto crop area must large than "minWidth/Height"
+    cropBoxData.height = Math.min(Math.max(cropBoxData.height, cropBoxData.minHeight), cropBoxData.maxHeight);
 
-    cropBoxData.width = Math.max(cropBoxData.minWidth, cropBoxData.width * autoCropArea);
-    cropBoxData.height = Math.max(cropBoxData.minHeight, cropBoxData.height * autoCropArea);
-    cropBoxData.left = canvasData.left + (canvasData.width - cropBoxData.width) / 2;
-    cropBoxData.top = canvasData.top + (canvasData.height - cropBoxData.height) / 2;
+    if (!holdExistingCropArea) {
+      // Initialize auto crop area
+      cropBoxData.width = Math.max(cropBoxData.minWidth, cropBoxData.width * autoCropArea);
+      cropBoxData.height = Math.max(cropBoxData.minHeight, cropBoxData.height * autoCropArea);
+      cropBoxData.left = canvasData.left + (canvasData.width - cropBoxData.width) / 2;
+      cropBoxData.top = canvasData.top + (canvasData.height - cropBoxData.height) / 2;
+    } else {
+      cropBoxData.left = canvasData.left + (canvasData.width - cropBoxData.width) / 2;
+      cropBoxData.top = canvasData.top + (canvasData.height - cropBoxData.height) / 2;
+    }
+
     cropBoxData.oldLeft = cropBoxData.left;
     cropBoxData.oldTop = cropBoxData.top;
     this.initialCropBoxData = assign({}, cropBoxData);
@@ -2773,6 +2786,14 @@ var methods = {
     }
 
     return this;
+  },
+
+  /**
+   * Get Cropper options
+   * @returns {Object} Options
+   */
+  getOptions: function getOptions() {
+    return _objectSpread2({}, this.options);
   },
 
   /**

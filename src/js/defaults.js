@@ -56,6 +56,9 @@ export default {
   // Define the percentage of automatic cropping area when initializes
   autoCropArea: 0.8,
 
+  // Transform current crop area to new aspect ratio instead of reinitialize it
+  holdExistingCropArea: false,
+
   // Enable to move the image
   movable: true,
 

@@ -377,6 +377,14 @@ export default {
   },
 
   /**
+   * Get Cropper options
+   * @returns {Object} Options
+   */
+  getOptions() {
+    return { ...this.options };
+  },
+
+  /**
    * Get the cropped area position and size data (base on the original image)
    * @param {boolean} [rounded=false] - Indicate if round the data values or not.
    * @returns {Object} The result cropped data.
