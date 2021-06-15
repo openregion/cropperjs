@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.6.0
+ * Cropper.js v1.6.1
  * https://openregion.github.io/cropperjs
  *
  * Copyright 2015-present CIT Open Region
  * Released under the MIT license
  *
- * Date: 2021-06-15T06:45:26.061Z
+ * Date: 2021-06-15T07:48:00.296Z
  */
 
 (function (global, factory) {

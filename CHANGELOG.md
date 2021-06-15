@@ -1,6 +1,10 @@
 # Changelog
 
 ## next
+## 1.6.1 (Jun 15, 2021)
+
+- Fix TS module name
+
 ## 1.6.0 (Jun 15, 2021)
 
 - New method and TS declaration for getting current options `getOptions()`
