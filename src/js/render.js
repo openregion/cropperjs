@@ -299,13 +299,24 @@ export default {
       left: (canvasData.width - width) / 2,
       top: (canvasData.height - height) / 2,
     });
-    setStyle(this.image, assign({
-      width: imageData.width,
-      height: imageData.height,
-    }, getTransforms(assign({
-      translateX: imageData.left,
-      translateY: imageData.top,
-    }, imageData))));
+    setStyle(
+      this.image,
+      assign(
+        {
+          width: imageData.width,
+          height: imageData.height,
+        },
+        getTransforms(
+          assign(
+            {
+              translateX: imageData.left,
+              translateY: imageData.top,
+            },
+            imageData,
+          ),
+        ),
+      ),
+    );
 
     if (changed) {
       this.output();

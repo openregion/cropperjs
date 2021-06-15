@@ -316,6 +316,11 @@ export default {
 
     if (isNumber(degree) && this.ready && !this.disabled && this.options.rotatable) {
       this.imageData.rotate = degree % 360;
+
+      if (this.options.fitCanvasOnRotate) {
+        this.initCanvas();
+      }
+
       this.renderCanvas(true, true);
     }
 

@@ -24,8 +24,8 @@ JavaScript image cropper. This is a fork of [cropperjs](https://github.com/fengy
 
 ## Features
 
-- Supports 39 [options](#options)
-- Supports 27 [methods](#methods)
+- Supports 41 [options](#options)
+- Supports 28 [methods](#methods)
 - Supports 6 [events](#events)
 - Supports touch (mobile)
 - Supports zooming
@@ -332,6 +332,13 @@ Enable to move the image.
 - Default: `true`
 
 Enable to rotate the image.
+
+### fitCanvasOnRotate
+
+- Type: `Boolean`
+- Default: `false`
+
+Make canvas fit container after rotating.
 
 ### scalable
 

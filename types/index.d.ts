@@ -133,6 +133,7 @@ declare namespace Cropper {
     cropBoxResizable?: boolean;
     data?: SetDataOptions;
     dragMode?: DragMode;
+    fitCanvasOnRotate?: boolean;
     guides?: boolean;
     highlight?: boolean;
     holdExistingCropArea?: boolean;

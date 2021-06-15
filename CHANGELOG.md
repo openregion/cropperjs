@@ -1,6 +1,10 @@
 # Changelog
 
 ## next
+## 1.6.3 (Jun 15, 2021)
+
+- New option and TS declaration `fitCanvasOnRotate`
+
 ## 1.6.2 (Jun 15, 2021)
 
 - Fix `holdExistingCropArea`

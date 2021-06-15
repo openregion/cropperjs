@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.6.2
+ * Cropper.js v1.6.3
  * https://openregion.github.io/cropperjs
  *
  * Copyright 2015-present CIT Open Region
  * Released under the MIT license
  *
- * Date: 2021-06-15T10:52:57.498Z
+ * Date: 2021-06-15T12:54:51.801Z
  */
 
 function ownKeys(object, enumerableOnly) {
@@ -236,6 +236,8 @@ var DEFAULTS = {
   movable: true,
   // Enable to rotate the image
   rotatable: true,
+  // Make canvas fit container after rotating
+  fitCanvasOnRotate: false,
   // Enable to scale the image
   scalable: true,
   // Enable to zoom the image
@@ -2729,6 +2731,11 @@ var methods = {
 
     if (isNumber(degree) && this.ready && !this.disabled && this.options.rotatable) {
       this.imageData.rotate = degree % 360;
+
+      if (this.options.fitCanvasOnRotate) {
+        this.initCanvas();
+      }
+
       this.renderCanvas(true, true);
     }
 

@@ -65,6 +65,9 @@ export default {
   // Enable to rotate the image
   rotatable: true,
 
+  // Make canvas fit container after rotating
+  fitCanvasOnRotate: false,
+
   // Enable to scale the image
   scalable: true,
 
