@@ -315,11 +315,11 @@ export default {
   initCropBox() {
     const { options, canvasData } = this;
     const oldCropBoxData = assign({}, this.cropBoxData);
+    const oldCropBoxDataExist = Object.entries(oldCropBoxData).length > 0;
     const aspectRatio = options.aspectRatio || options.initialAspectRatio;
     const autoCropArea = Number(options.autoCropArea) || 0.8;
-    const holdExistingCropArea = options.holdExistingCropArea
-      && Object.entries(oldCropBoxData).length > 0;
-    const cropBoxData = (holdExistingCropArea && oldCropBoxData)
+    const holdExistingCropArea = options.holdExistingCropArea && oldCropBoxDataExist;
+    const cropBoxData = (holdExistingCropArea && assign({}, oldCropBoxData))
       || {
         width: canvasData.width,
         height: canvasData.height,
@@ -365,12 +365,12 @@ export default {
       cropBoxData.top = (
         canvasData.top + ((canvasData.height - cropBoxData.height) / 2)
       );
-    } else {
+    } else if (oldCropBoxDataExist) {
       cropBoxData.left = (
-        canvasData.left + ((canvasData.width - cropBoxData.width) / 2)
+        oldCropBoxData.left + oldCropBoxData.width / 2 - cropBoxData.width / 2
       );
       cropBoxData.top = (
-        canvasData.top + ((canvasData.height - cropBoxData.height) / 2)
+        oldCropBoxData.top + oldCropBoxData.height / 2 - cropBoxData.height / 2
       );
     }
 

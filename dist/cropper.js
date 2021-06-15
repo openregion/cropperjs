@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.6.1
+ * Cropper.js v1.6.2
  * https://openregion.github.io/cropperjs
  *
  * Copyright 2015-present CIT Open Region
  * Released under the MIT license
  *
- * Date: 2021-06-15T07:48:00.296Z
+ * Date: 2021-06-15T10:52:57.498Z
  */
 
 (function (global, factory) {
@@ -1461,10 +1461,11 @@
       var options = this.options,
           canvasData = this.canvasData;
       var oldCropBoxData = assign({}, this.cropBoxData);
+      var oldCropBoxDataExist = Object.entries(oldCropBoxData).length > 0;
       var aspectRatio = options.aspectRatio || options.initialAspectRatio;
       var autoCropArea = Number(options.autoCropArea) || 0.8;
-      var holdExistingCropArea = options.holdExistingCropArea && Object.entries(oldCropBoxData).length > 0;
-      var cropBoxData = holdExistingCropArea && oldCropBoxData || {
+      var holdExistingCropArea = options.holdExistingCropArea && oldCropBoxDataExist;
+      var cropBoxData = holdExistingCropArea && assign({}, oldCropBoxData) || {
         width: canvasData.width,
         height: canvasData.height
       };
@@ -1491,9 +1492,9 @@
         cropBoxData.height = Math.max(cropBoxData.minHeight, cropBoxData.height * autoCropArea);
         cropBoxData.left = canvasData.left + (canvasData.width - cropBoxData.width) / 2;
         cropBoxData.top = canvasData.top + (canvasData.height - cropBoxData.height) / 2;
-      } else {
-        cropBoxData.left = canvasData.left + (canvasData.width - cropBoxData.width) / 2;
-        cropBoxData.top = canvasData.top + (canvasData.height - cropBoxData.height) / 2;
+      } else if (oldCropBoxDataExist) {
+        cropBoxData.left = oldCropBoxData.left + oldCropBoxData.width / 2 - cropBoxData.width / 2;
+        cropBoxData.top = oldCropBoxData.top + oldCropBoxData.height / 2 - cropBoxData.height / 2;
       }
 
       cropBoxData.oldLeft = cropBoxData.left;

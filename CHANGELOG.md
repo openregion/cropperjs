@@ -1,6 +1,10 @@
 # Changelog
 
 ## next
+## 1.6.2 (Jun 15, 2021)
+
+- Fix `holdExistingCropArea`
+
 ## 1.6.1 (Jun 15, 2021)
 
 - Fix TS module name
