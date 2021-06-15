@@ -200,6 +200,6 @@ declare class Cropper {
   static setDefaults(options: Cropper.Options): void;
 }
 
-declare module 'cropperjs' {
+declare module '@openregion/cropperjs' {
   export default Cropper;
 }
