@@ -1,6 +1,6 @@
 # Cropper.js
 
-[![Downloads](https://img.shields.io/npm/dm/@openregion/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Version](https://img.shields.io/npm/v/@openregion/cropperjs.svg)](https://www.npmjs.com/package/cropperjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/@openregion/cropperjs.svg)](https://unpkg.com/@openregion/cropperjs/dist/cropper.common.js) [![Dependencies](https://img.shields.io/david/openregion/cropperjs.svg)](https://www.npmjs.com/package/@openregion/cropperjs)
+[![Downloads](https://img.shields.io/npm/dm/@openregion/cropperjs.svg)](https://www.npmjs.com/package/@openregion/cropperjs) [![Version](https://img.shields.io/npm/v/@openregion/cropperjs.svg)](https://www.npmjs.com/package/@openregion/cropperjs) [![Gzip Size](https://img.shields.io/bundlephobia/minzip/@openregion/cropperjs.svg)](https://unpkg.com/@openregion/cropperjs/dist/cropper.common.js) [![Dependencies](https://img.shields.io/david/openregion/cropperjs.svg)](https://www.npmjs.com/package/@openregion/cropperjs)
 
 JavaScript image cropper. This is a fork of [cropperjs](https://github.com/fengyuanchen/cropperjs).
 
