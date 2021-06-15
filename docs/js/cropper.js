@@ -2,10 +2,10 @@
  * Cropper.js v1.6.0
  * https://openregion.github.io/cropperjs
  *
- * Copyright 2015-present Chen Fengyuan
+ * Copyright 2015-present CIT Open Region
  * Released under the MIT license
  *
- * Date: 2021-06-15T06:09:09.205Z
+ * Date: 2021-06-15T06:45:26.061Z
  */
 
 (function (global, factory) {
