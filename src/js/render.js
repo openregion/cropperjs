@@ -314,12 +314,16 @@ export default {
 
   initCropBox() {
     const { options, canvasData } = this;
+    const oldCropBoxData = assign({}, this.cropBoxData);
     const aspectRatio = options.aspectRatio || options.initialAspectRatio;
     const autoCropArea = Number(options.autoCropArea) || 0.8;
-    const cropBoxData = {
-      width: canvasData.width,
-      height: canvasData.height,
-    };
+    const holdExistingCropArea = options.holdExistingCropArea
+      && Object.entries(oldCropBoxData).length > 0;
+    const cropBoxData = (holdExistingCropArea && oldCropBoxData)
+      || {
+        width: canvasData.width,
+        height: canvasData.height,
+      };
 
     if (aspectRatio) {
       if (canvasData.height * aspectRatio > canvasData.width) {
@@ -327,12 +331,14 @@ export default {
       } else {
         cropBoxData.width = cropBoxData.height * aspectRatio;
       }
+    } else if (holdExistingCropArea) {
+      return;
     }
 
     this.cropBoxData = cropBoxData;
     this.limitCropBox(true, true);
 
-    // Initialize auto crop area
+    // The width/height of auto crop area must large than "minWidth/Height"
     cropBoxData.width = Math.min(
       Math.max(cropBoxData.width, cropBoxData.minWidth),
       cropBoxData.maxWidth,
@@ -342,21 +348,32 @@ export default {
       cropBoxData.maxHeight,
     );
 
-    // The width/height of auto crop area must large than "minWidth/Height"
-    cropBoxData.width = Math.max(
-      cropBoxData.minWidth,
-      cropBoxData.width * autoCropArea,
-    );
-    cropBoxData.height = Math.max(
-      cropBoxData.minHeight,
-      cropBoxData.height * autoCropArea,
-    );
-    cropBoxData.left = (
-      canvasData.left + ((canvasData.width - cropBoxData.width) / 2)
-    );
-    cropBoxData.top = (
-      canvasData.top + ((canvasData.height - cropBoxData.height) / 2)
-    );
+    if (!holdExistingCropArea) {
+      // Initialize auto crop area
+      cropBoxData.width = Math.max(
+        cropBoxData.minWidth,
+        cropBoxData.width * autoCropArea,
+      );
+      cropBoxData.height = Math.max(
+        cropBoxData.minHeight,
+        cropBoxData.height * autoCropArea,
+      );
+
+      cropBoxData.left = (
+        canvasData.left + ((canvasData.width - cropBoxData.width) / 2)
+      );
+      cropBoxData.top = (
+        canvasData.top + ((canvasData.height - cropBoxData.height) / 2)
+      );
+    } else {
+      cropBoxData.left = (
+        canvasData.left + ((canvasData.width - cropBoxData.width) / 2)
+      );
+      cropBoxData.top = (
+        canvasData.top + ((canvasData.height - cropBoxData.height) / 2)
+      );
+    }
+
     cropBoxData.oldLeft = cropBoxData.left;
     cropBoxData.oldTop = cropBoxData.top;
 

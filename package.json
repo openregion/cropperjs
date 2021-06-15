@@ -1,7 +1,7 @@
 {
-  "name": "cropperjs",
+  "name": "@openregion/cropperjs",
   "description": "JavaScript image cropper.",
-  "version": "1.5.11",
+  "version": "1.6.0",
   "main": "dist/cropper.common.js",
   "module": "dist/cropper.esm.js",
   "browser": "dist/cropper.js",
@@ -29,11 +29,12 @@
     "start": "npm-run-all --parallel watch:*",
     "test": "karma start",
     "watch:css": "postcss src/index.css -o docs/css/cropper.css -m -w",
-    "watch:js": "rollup -c -m -w"
+    "watch:js": "rollup -c -m -w",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fengyuanchen/cropperjs.git"
+    "url": "git+https://github.com/openregion/cropperjs.git"
   },
   "keywords": [
     "image",
@@ -53,19 +54,20 @@
     "web"
   ],
   "author": {
-    "name": "Chen Fengyuan",
-    "url": "https://chenfengyuan.com/"
+    "name": "CIT Open Region",
+    "email": "info@openregion.info",
+    "url": "https://openregion.info/"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fengyuanchen/cropperjs/issues"
+    "url": "https://github.com/openregion/cropperjs/issues"
   },
-  "homepage": "https://fengyuanchen.github.io/cropperjs",
+  "homepage": "https://openregion.github.io/cropperjs",
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/preset-env": "^7.12.16",
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
     "@rollup/plugin-babel": "^5.3.0",
     "babel-plugin-istanbul": "^6.0.0",
     "chai": "^4.3.0",
@@ -73,12 +75,12 @@
     "codecov": "^3.8.1",
     "cpy-cli": "^3.1.1",
     "create-banner": "^2.0.0",
-    "cssnano": "^4.1.10",
+    "cssnano": "^5.0.5",
     "del-cli": "^3.0.1",
     "eslint": "^7.20.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
-    "husky": "^4.3.8",
+    "husky": "^6.0.0",
     "karma": "^6.1.1",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^3.1.0",
@@ -86,24 +88,26 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-rollup-preprocessor": "^7.0.5",
-    "lint-staged": "^10.5.4",
+    "lint-staged": "^11.0.0",
     "mocha": "^8.3.0",
     "npm-run-all": "^4.1.5",
-    "postcss": "^8.2.6",
     "postcss-cli": "^8.3.1",
     "postcss-header": "^3.0.1",
     "postcss-import": "^14.0.0",
     "postcss-preset-env": "^6.7.0",
     "postcss-url": "^10.1.1",
-    "puppeteer": "^7.1.0",
+    "puppeteer": "^10.0.0",
     "rollup": "^2.39.0",
-    "stylelint": "^13.10.0",
-    "stylelint-config-standard": "^20.0.0",
+    "stylelint": "^13.13.1",
+    "stylelint-config-standard": "^22.0.0",
     "stylelint-order": "^4.1.0",
     "uglify-js": "^3.12.8"
   },
+  "peerDependencies": {
+    "postcss": "^8.2.6"
+  },
   "browserslist": [
-    "last 2 versions",
+    "last 4 versions",
     "> 1%",
     "not ie <= 8"
   ],
@@ -111,12 +115,6 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   },
   "lint-staged": {
     "{src,test}/**/*.js|*.conf*.js": [

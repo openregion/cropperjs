@@ -2,3 +2,10 @@
 *.map
 coverage
 node_modules
+
+# ide
+.idea/
+.vscode/
+
+# mac
+.DS_Store

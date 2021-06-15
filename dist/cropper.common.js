@@ -1,14 +1,52 @@
 /*!
- * Cropper.js v1.5.11
- * https://fengyuanchen.github.io/cropperjs
+ * Cropper.js v1.6.0
+ * https://openregion.github.io/cropperjs
  *
  * Copyright 2015-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2021-02-17T11:53:27.572Z
+ * Date: 2021-06-15T06:09:09.205Z
  */
 
 'use strict';
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+
+    if (enumerableOnly) {
+      symbols = symbols.filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
+    }
+
+    keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+
+    if (i % 2) {
+      ownKeys(Object(source), true).forEach(function (key) {
+        _defineProperty(target, key, source[key]);
+      });
+    } else if (Object.getOwnPropertyDescriptors) {
+      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+    } else {
+      ownKeys(Object(source)).forEach(function (key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+  }
+
+  return target;
+}
 
 function _typeof(obj) {
   "@babel/helpers - typeof";
@@ -63,40 +101,6 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    });
-    keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
-        _defineProperty(target, key, source[key]);
-      });
-    } else if (Object.getOwnPropertyDescriptors) {
-      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-    } else {
-      ownKeys(Object(source)).forEach(function (key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-  }
-
-  return target;
-}
-
 function _toConsumableArray(arr) {
   return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
@@ -106,7 +110,7 @@ function _arrayWithoutHoles(arr) {
 }
 
 function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 
 function _unsupportedIterableToArray(o, minLen) {
@@ -228,6 +232,8 @@ var DEFAULTS = {
   autoCrop: true,
   // Define the percentage of automatic cropping area when initializes
   autoCropArea: 0.8,
+  // Transform current crop area to new aspect ratio instead of reinitialize it
+  holdExistingCropArea: false,
   // Enable to move the image
   movable: true,
   // Enable to rotate the image
@@ -1450,9 +1456,11 @@ var render = {
   initCropBox: function initCropBox() {
     var options = this.options,
         canvasData = this.canvasData;
+    var oldCropBoxData = assign({}, this.cropBoxData);
     var aspectRatio = options.aspectRatio || options.initialAspectRatio;
     var autoCropArea = Number(options.autoCropArea) || 0.8;
-    var cropBoxData = {
+    var holdExistingCropArea = options.holdExistingCropArea && Object.entries(oldCropBoxData).length > 0;
+    var cropBoxData = holdExistingCropArea && oldCropBoxData || {
       width: canvasData.width,
       height: canvasData.height
     };
@@ -1463,18 +1471,27 @@ var render = {
       } else {
         cropBoxData.width = cropBoxData.height * aspectRatio;
       }
+    } else if (holdExistingCropArea) {
+      return;
     }
 
     this.cropBoxData = cropBoxData;
-    this.limitCropBox(true, true); // Initialize auto crop area
+    this.limitCropBox(true, true); // The width/height of auto crop area must large than "minWidth/Height"
 
     cropBoxData.width = Math.min(Math.max(cropBoxData.width, cropBoxData.minWidth), cropBoxData.maxWidth);
-    cropBoxData.height = Math.min(Math.max(cropBoxData.height, cropBoxData.minHeight), cropBoxData.maxHeight); // The width/height of auto crop area must large than "minWidth/Height"
+    cropBoxData.height = Math.min(Math.max(cropBoxData.height, cropBoxData.minHeight), cropBoxData.maxHeight);
 
-    cropBoxData.width = Math.max(cropBoxData.minWidth, cropBoxData.width * autoCropArea);
-    cropBoxData.height = Math.max(cropBoxData.minHeight, cropBoxData.height * autoCropArea);
-    cropBoxData.left = canvasData.left + (canvasData.width - cropBoxData.width) / 2;
-    cropBoxData.top = canvasData.top + (canvasData.height - cropBoxData.height) / 2;
+    if (!holdExistingCropArea) {
+      // Initialize auto crop area
+      cropBoxData.width = Math.max(cropBoxData.minWidth, cropBoxData.width * autoCropArea);
+      cropBoxData.height = Math.max(cropBoxData.minHeight, cropBoxData.height * autoCropArea);
+      cropBoxData.left = canvasData.left + (canvasData.width - cropBoxData.width) / 2;
+      cropBoxData.top = canvasData.top + (canvasData.height - cropBoxData.height) / 2;
+    } else {
+      cropBoxData.left = canvasData.left + (canvasData.width - cropBoxData.width) / 2;
+      cropBoxData.top = canvasData.top + (canvasData.height - cropBoxData.height) / 2;
+    }
+
     cropBoxData.oldLeft = cropBoxData.left;
     cropBoxData.oldTop = cropBoxData.top;
     this.initialCropBoxData = assign({}, cropBoxData);
@@ -1812,9 +1829,11 @@ var handlers = {
     var options = this.options,
         container = this.container,
         containerData = this.containerData;
-    var ratio = container.offsetWidth / containerData.width; // Resize when width changed or height changed
+    var ratioX = container.offsetWidth / containerData.width;
+    var ratioY = container.offsetHeight / containerData.height;
+    var ratio = Math.abs(ratioX - 1) > Math.abs(ratioY - 1) ? ratioX : ratioY; // Resize when width changed or height changed
 
-    if (ratio !== 1 || container.offsetHeight !== containerData.height) {
+    if (ratio !== 1) {
       var canvasData;
       var cropBoxData;
 
@@ -2767,6 +2786,14 @@ var methods = {
     }
 
     return this;
+  },
+
+  /**
+   * Get Cropper options
+   * @returns {Object} Options
+   */
+  getOptions: function getOptions() {
+    return _objectSpread2({}, this.options);
   },
 
   /**

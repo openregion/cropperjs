@@ -101,6 +101,11 @@ window.onload = function () {
           cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);
         };
       } else {
+        if (target.name === 'aspectRatio') {
+          cropper.setAspectRatio(Number(target.value));
+          return;
+        }
+
         options[target.name] = target.value;
         options.ready = function () {
           console.log('ready');
