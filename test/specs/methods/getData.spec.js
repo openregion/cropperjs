@@ -7,6 +7,8 @@ describe('getData (method)', () => {
     rotate: 0,
     scaleX: 1,
     scaleY: 1,
+    skewX: 0,
+    skewY: 0,
   };
 
   it('should get initial data when it is not ready', () => {
@@ -35,7 +37,9 @@ describe('getData (method)', () => {
       ready() {
         const data = cropper.getData();
 
-        expect(data).to.be.an('object').that.has.all.keys(['x', 'y', 'width', 'height', 'rotate', 'scaleX', 'scaleY']);
+        expect(data).to.be.an('object').that.has.all.keys(
+          ['x', 'y', 'width', 'height', 'rotate', 'scaleX', 'scaleY', 'skewX', 'skewY'],
+        );
         expect(data.x).to.be.a('number');
         expect(data.y).to.be.a('number');
         expect(data.width).to.be.a('number');

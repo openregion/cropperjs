@@ -183,6 +183,8 @@ class Cropper {
     let rotate = 0;
     let scaleX = 1;
     let scaleY = 1;
+    const skewX = 0;
+    const skewY = 0;
 
     if (orientation > 1) {
       // Generate a new URL which has the default orientation value
@@ -197,6 +199,11 @@ class Cropper {
     if (options.scalable) {
       imageData.scaleX = scaleX;
       imageData.scaleY = scaleY;
+    }
+
+    if (options.skewable) {
+      imageData.skewX = skewX;
+      imageData.skewY = skewY;
     }
 
     this.clone();

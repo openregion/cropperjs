@@ -14,6 +14,8 @@ describe('clear (method)', () => {
           rotate: 0,
           scaleX: 1,
           scaleY: 1,
+          skewX: 0,
+          skewY: 0,
         });
         expect(cropper.getCropBoxData()).to.be.an('object').that.is.empty;
         expect(window.getComputedStyle(cropper.cropBox).display).to.equal('none');

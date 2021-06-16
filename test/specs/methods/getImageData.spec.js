@@ -13,7 +13,9 @@ describe('getImageData (method)', () => {
       ready() {
         const imageData = cropper.getImageData();
 
-        expect(imageData).to.have.all.keys(['left', 'top', 'width', 'height', 'rotate', 'scaleX', 'scaleY', 'naturalWidth', 'naturalHeight', 'aspectRatio']);
+        expect(imageData).to.have.all.keys(
+          ['left', 'top', 'width', 'height', 'rotate', 'scaleX', 'scaleY', 'skewX', 'skewY', 'naturalWidth', 'naturalHeight', 'aspectRatio'],
+        );
         expect(imageData.left).to.be.a('number');
         expect(imageData.top).to.be.a('number');
         expect(imageData.width).to.be.a('number');
@@ -37,7 +39,9 @@ describe('getImageData (method)', () => {
       ready() {
         const imageData = cropper.getImageData();
 
-        expect(imageData).to.have.all.keys(['left', 'top', 'width', 'height', 'scaleX', 'scaleY', 'naturalWidth', 'naturalHeight', 'aspectRatio']);
+        expect(imageData).to.have.all.keys(
+          ['left', 'top', 'width', 'height', 'scaleX', 'scaleY', 'skewX', 'skewY', 'naturalWidth', 'naturalHeight', 'aspectRatio'],
+        );
         expect(imageData.rotate).to.be.undefined;
         done();
       },
@@ -52,7 +56,9 @@ describe('getImageData (method)', () => {
       ready() {
         const imageData = cropper.getImageData();
 
-        expect(imageData).to.have.all.keys(['left', 'top', 'width', 'height', 'rotate', 'naturalWidth', 'naturalHeight', 'aspectRatio']);
+        expect(imageData).to.have.all.keys(
+          ['left', 'top', 'width', 'height', 'skewX', 'skewY', 'rotate', 'naturalWidth', 'naturalHeight', 'aspectRatio'],
+        );
         expect(imageData.scaleX).to.be.undefined;
         expect(imageData.scaleY).to.be.undefined;
         done();

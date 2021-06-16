@@ -223,9 +223,38 @@ export default {
     const { canvasData, imageData } = this;
 
     if (transformed) {
+      const skewXMultiplier = imageData.skewX < 0 ? -1 : 1;
+      const skewYMultiplier = imageData.skewY < 0 ? -1 : 1;
+      const skewMultiplier = (
+        skewXMultiplier * skewYMultiplier < 0
+      ) ? -1 : 1;
+      const skewYIncrement = imageData.skewY
+        ? Math.abs(
+          (
+            imageData.naturalWidth
+            * Math.abs(imageData.scaleX || 1)
+            * Math.sin(imageData.skewY * (Math.PI / 180))
+          )
+          / Math.sin((90 - imageData.skewY) * (Math.PI / 180)),
+        )
+        : 0;
+      const skewXIncrement = imageData.skewX
+        ? Math.abs(
+          (
+            (
+              imageData.naturalHeight
+              * Math.abs(imageData.scaleY || 1)
+              + (skewYIncrement * skewMultiplier)
+            )
+            * Math.sin(imageData.skewX * (Math.PI / 180))
+          )
+          / Math.sin((90 - imageData.skewX) * (Math.PI / 180)),
+        )
+        : 0;
+
       const { width: naturalWidth, height: naturalHeight } = getRotatedSizes({
-        width: imageData.naturalWidth * Math.abs(imageData.scaleX || 1),
-        height: imageData.naturalHeight * Math.abs(imageData.scaleY || 1),
+        width: imageData.naturalWidth * Math.abs(imageData.scaleX || 1) + skewXIncrement,
+        height: imageData.naturalHeight * Math.abs(imageData.scaleY || 1) + skewYIncrement,
         degree: imageData.rotate || 0,
       });
       const width = canvasData.width * (naturalWidth / canvasData.naturalWidth);

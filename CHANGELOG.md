@@ -1,6 +1,10 @@
 # Changelog
 
 ## next
+
+- New methods `skew`, `skewX`, `skewY`
+- New option `skewable`
+
 ## 1.6.4 (Jun 16, 2021)
 
 - Fix `fitCanvasOnRotate` in some extra cases

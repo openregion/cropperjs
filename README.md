@@ -24,8 +24,8 @@ JavaScript image cropper. This is a fork of [cropperjs](https://github.com/fengy
 
 ## Features
 
-- Supports 41 [options](#options)
-- Supports 28 [methods](#methods)
+- Supports 42 [options](#options)
+- Supports 30 [methods](#methods)
 - Supports 6 [events](#events)
 - Supports touch (mobile)
 - Supports zooming

@@ -71,6 +71,9 @@ export default {
   // Enable to scale the image
   scalable: true,
 
+  // Enable to skew the image
+  skewable: true,
+
   // Enable to zoom the image
   zoomable: true,
 

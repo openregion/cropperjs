@@ -5,7 +5,7 @@
  * Copyright 2015-present CIT Open Region
  * Released under the MIT license
  *
- * Date: 2021-06-16T05:29:34.056Z
+ * Date: 2021-06-16T10:37:42.072Z
  */
 
 function ownKeys(object, enumerableOnly) {
@@ -240,6 +240,8 @@ var DEFAULTS = {
   fitCanvasOnRotate: false,
   // Enable to scale the image
   scalable: true,
+  // Enable to skew the image
+  skewable: true,
   // Enable to zoom the image
   zoomable: true,
   // Enable to zoom the image by dragging touch
@@ -767,6 +769,8 @@ function getTransforms(_ref) {
   var rotate = _ref.rotate,
       scaleX = _ref.scaleX,
       scaleY = _ref.scaleY,
+      skewX = _ref.skewX,
+      skewY = _ref.skewY,
       translateX = _ref.translateX,
       translateY = _ref.translateY;
   var values = [];
@@ -790,6 +794,14 @@ function getTransforms(_ref) {
 
   if (isNumber(scaleY) && scaleY !== 1) {
     values.push("scaleY(".concat(scaleY, ")"));
+  }
+
+  if (isNumber(skewX) && skewX !== 0) {
+    values.push("skewX(".concat(skewX, "deg)"));
+  }
+
+  if (isNumber(skewY) && skewY !== 0) {
+    values.push("skewY(".concat(skewY, "deg)"));
   }
 
   var transform = values.length ? values.join(' ') : 'none';
@@ -955,7 +967,11 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
       _ref6$scaleX = _ref6.scaleX,
       scaleX = _ref6$scaleX === void 0 ? 1 : _ref6$scaleX,
       _ref6$scaleY = _ref6.scaleY,
-      scaleY = _ref6$scaleY === void 0 ? 1 : _ref6$scaleY;
+      scaleY = _ref6$scaleY === void 0 ? 1 : _ref6$scaleY,
+      _ref6$skewX = _ref6.skewX,
+      skewX = _ref6$skewX === void 0 ? 0 : _ref6$skewX,
+      _ref6$skewY = _ref6.skewY,
+      skewY = _ref6$skewY === void 0 ? 0 : _ref6$skewY;
   var aspectRatio = _ref7.aspectRatio,
       naturalWidth = _ref7.naturalWidth,
       naturalHeight = _ref7.naturalHeight;
@@ -1010,6 +1026,7 @@ function getSourceCanvas(image, _ref6, _ref7, _ref8) {
   context.translate(width / 2, height / 2);
   context.rotate(rotate * Math.PI / 180);
   context.scale(scaleX, scaleY);
+  context.transform(1, skewY * (Math.PI / 180), skewX * (Math.PI / 180), 1, 0, 0);
   context.imageSmoothingEnabled = imageSmoothingEnabled;
   context.imageSmoothingQuality = imageSmoothingQuality;
   context.drawImage.apply(context, [image].concat(_toConsumableArray(params.map(function (param) {
@@ -1382,9 +1399,15 @@ var render = {
         imageData = this.imageData;
 
     if (transformed) {
+      var skewXMultiplier = imageData.skewX < 0 ? -1 : 1;
+      var skewYMultiplier = imageData.skewY < 0 ? -1 : 1;
+      var skewMultiplier = skewXMultiplier * skewYMultiplier < 0 ? -1 : 1;
+      var skewYIncrement = imageData.skewY ? Math.abs(imageData.naturalWidth * Math.abs(imageData.scaleX || 1) * Math.sin(imageData.skewY * (Math.PI / 180)) / Math.sin((90 - imageData.skewY) * (Math.PI / 180))) : 0;
+      var skewXIncrement = imageData.skewX ? Math.abs((imageData.naturalHeight * Math.abs(imageData.scaleY || 1) + skewYIncrement * skewMultiplier) * Math.sin(imageData.skewX * (Math.PI / 180)) / Math.sin((90 - imageData.skewX) * (Math.PI / 180))) : 0;
+
       var _getRotatedSizes = getRotatedSizes({
-        width: imageData.naturalWidth * Math.abs(imageData.scaleX || 1),
-        height: imageData.naturalHeight * Math.abs(imageData.scaleY || 1),
+        width: imageData.naturalWidth * Math.abs(imageData.scaleX || 1) + skewXIncrement,
+        height: imageData.naturalHeight * Math.abs(imageData.scaleY || 1) + skewYIncrement,
         degree: imageData.rotate || 0
       }),
           naturalWidth = _getRotatedSizes.width,
@@ -2805,6 +2828,58 @@ var methods = {
   },
 
   /**
+   * Skew the image on the x-axis.
+   * @param {number} skewX - The skew ratio on the x-axis.
+   * @returns {Cropper} this
+   */
+  skewX: function skewX(_skewX) {
+    var skewY = this.imageData.skewY;
+    return this.skew(_skewX, isNumber(skewY) ? skewY : 0);
+  },
+
+  /**
+   * Skew the image on the y-axis.
+   * @param {number} skewY - The skew ratio on the y-axis.
+   * @returns {Cropper} this
+   */
+  skewY: function skewY(_skewY) {
+    var skewX = this.imageData.skewX;
+    return this.skew(isNumber(skewX) ? skewX : 0, _skewY);
+  },
+
+  /**
+   * Skew the image
+   * @param {number} skewX - The skew ratio on the x-axis.
+   * @param {number} [skewY=skewX] - The skew ratio on the y-axis.
+   * @returns {Cropper} this
+   */
+  skew: function skew(skewX) {
+    var skewY = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : skewX;
+    var imageData = this.imageData;
+    var transformed = false;
+    skewX = Number(skewX);
+    skewY = Number(skewY);
+
+    if (this.ready && !this.disabled && this.options.skewable) {
+      if (isNumber(skewX)) {
+        imageData.skewX = skewX;
+        transformed = true;
+      }
+
+      if (isNumber(skewY)) {
+        imageData.skewY = skewY;
+        transformed = true;
+      }
+
+      if (transformed) {
+        this.renderCanvas(true, true);
+      }
+    }
+
+    return this;
+  },
+
+  /**
    * Get Cropper options
    * @returns {Object} Options
    */
@@ -2865,6 +2940,11 @@ var methods = {
       data.scaleY = imageData.scaleY || 1;
     }
 
+    if (options.scalable) {
+      data.skewX = imageData.skewX || 0;
+      data.skewY = imageData.skewY || 0;
+    }
+
     return data;
   },
 
@@ -2897,6 +2977,18 @@ var methods = {
 
         if (isNumber(data.scaleY) && data.scaleY !== imageData.scaleY) {
           imageData.scaleY = data.scaleY;
+          transformed = true;
+        }
+      }
+
+      if (options.scalable) {
+        if (isNumber(data.skewX) && data.skewX !== imageData.skewX) {
+          imageData.skewX = data.skewX;
+          transformed = true;
+        }
+
+        if (isNumber(data.skewY) && data.skewY !== imageData.skewY) {
+          imageData.skewY = data.skewY;
           transformed = true;
         }
       }
@@ -3396,6 +3488,8 @@ var Cropper = /*#__PURE__*/function () {
       var rotate = 0;
       var scaleX = 1;
       var scaleY = 1;
+      var skewX = 0;
+      var skewY = 0;
 
       if (orientation > 1) {
         // Generate a new URL which has the default orientation value
@@ -3415,6 +3509,11 @@ var Cropper = /*#__PURE__*/function () {
       if (options.scalable) {
         imageData.scaleX = scaleX;
         imageData.scaleY = scaleY;
+      }
+
+      if (options.skewable) {
+        imageData.skewX = skewX;
+        imageData.skewY = skewY;
       }
 
       this.clone();

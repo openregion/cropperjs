@@ -495,6 +495,8 @@ export function getTransforms({
   rotate,
   scaleX,
   scaleY,
+  skewX,
+  skewY,
   translateX,
   translateY,
 }) {
@@ -519,6 +521,14 @@ export function getTransforms({
 
   if (isNumber(scaleY) && scaleY !== 1) {
     values.push(`scaleY(${scaleY})`);
+  }
+
+  if (isNumber(skewX) && skewX !== 0) {
+    values.push(`skewX(${skewX}deg)`);
+  }
+
+  if (isNumber(skewY) && skewY !== 0) {
+    values.push(`skewY(${skewY}deg)`);
   }
 
   const transform = values.length ? values.join(' ') : 'none';
@@ -688,6 +698,8 @@ export function getSourceCanvas(
     rotate = 0,
     scaleX = 1,
     scaleY = 1,
+    skewX = 0,
+    skewY = 0,
   },
   {
     aspectRatio,
@@ -754,6 +766,7 @@ export function getSourceCanvas(
   context.translate(width / 2, height / 2);
   context.rotate((rotate * Math.PI) / 180);
   context.scale(scaleX, scaleY);
+  context.transform(1, skewY * (Math.PI / 180), skewX * (Math.PI / 180), 1, 0, 0);
   context.imageSmoothingEnabled = imageSmoothingEnabled;
   context.imageSmoothingQuality = imageSmoothingQuality;
   context.drawImage(image, ...params.map((param) => Math.floor(normalizeDecimalNumber(param))));

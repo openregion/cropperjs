@@ -11,7 +11,9 @@ describe('crop (option)', () => {
     const cropper = new Cropper(image, {
       crop(event) {
         expect(event.type).to.equal('crop');
-        expect(event.detail).to.be.an('object').that.has.all.keys(['x', 'y', 'width', 'height', 'rotate', 'scaleX', 'scaleY']);
+        expect(event.detail).to.be.an('object').that.has.all.keys(
+          ['x', 'y', 'width', 'height', 'rotate', 'scaleX', 'scaleY', 'skewX', 'skewY'],
+        );
         expect(event.detail.x).to.be.a('number');
         expect(event.detail.y).to.be.a('number');
         expect(event.detail.width).to.be.a('number');

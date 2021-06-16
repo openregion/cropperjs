@@ -12,6 +12,8 @@ declare namespace Cropper {
     rotate: number;
     scaleX: number;
     scaleY: number;
+    skewX: number;
+    skewY: number;
   }
 
   export interface ContainerData {
@@ -27,6 +29,8 @@ declare namespace Cropper {
     rotate: number;
     scaleX: number;
     scaleY: number;
+    skewX: number;
+    skewY: number;
     naturalWidth: number;
     naturalHeight: number;
     aspectRatio: number;
@@ -68,6 +72,8 @@ declare namespace Cropper {
     rotate?: number;
     scaleX?: number;
     scaleY?: number;
+    skewX?: number;
+    skewY?: number;
   }
 
   export interface SetCanvasDataOptions {
@@ -151,6 +157,7 @@ declare namespace Cropper {
     restore?: boolean;
     rotatable?: boolean;
     scalable?: boolean;
+    skewable?: boolean;
     toggleDragModeOnDblclick?: boolean;
     viewMode?: ViewMode;
     wheelZoomRatio?: number;
@@ -190,6 +197,9 @@ declare class Cropper {
   scale(scaleX: number, scaleY?: number): Cropper;
   scaleX(scaleX: number): Cropper;
   scaleY(scaleY: number): Cropper;
+  skew(skewX: number, skewY?: number): Cropper;
+  skewX(skewX: number): Cropper;
+  skewY(skewY: number): Cropper;
   setAspectRatio(aspectRatio: number): Cropper;
   setCanvasData(data: Cropper.SetCanvasDataOptions): Cropper;
   setCropBoxData(data: Cropper.SetCropBoxDataOptions): Cropper;
