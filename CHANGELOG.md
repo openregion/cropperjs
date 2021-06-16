@@ -1,6 +1,10 @@
 # Changelog
 
 ## next
+## 1.6.4 (Jun 16, 2021)
+
+- Fix `fitCanvasOnRotate` in some extra cases
+
 ## 1.6.3 (Jun 15, 2021)
 
 - New option and TS declaration `fitCanvasOnRotate`

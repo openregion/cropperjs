@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.6.3
+ * Cropper.js v1.6.4
  * https://openregion.github.io/cropperjs
  *
  * Copyright 2015-present CIT Open Region
  * Released under the MIT license
  *
- * Date: 2021-06-15T12:54:51.801Z
+ * Date: 2021-06-16T05:29:34.056Z
  */
 
 (function (global, factory) {
@@ -1463,7 +1463,7 @@
       var options = this.options,
           canvasData = this.canvasData;
       var oldCropBoxData = assign({}, this.cropBoxData);
-      var oldCropBoxDataExist = Object.entries(oldCropBoxData).length > 0;
+      var oldCropBoxDataExist = this.cropped;
       var aspectRatio = options.aspectRatio || options.initialAspectRatio;
       var autoCropArea = Number(options.autoCropArea) || 0.8;
       var holdExistingCropArea = options.holdExistingCropArea && oldCropBoxDataExist;
@@ -2739,7 +2739,17 @@
         this.imageData.rotate = degree % 360;
 
         if (this.options.fitCanvasOnRotate) {
+          var cropBoxDataExist = this.cropped;
+
+          if (cropBoxDataExist) {
+            this.clear();
+          }
+
           this.initCanvas();
+
+          if (cropBoxDataExist) {
+            this.crop();
+          }
         }
 
         this.renderCanvas(true, true);

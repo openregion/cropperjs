@@ -326,7 +326,7 @@ export default {
   initCropBox() {
     const { options, canvasData } = this;
     const oldCropBoxData = assign({}, this.cropBoxData);
-    const oldCropBoxDataExist = Object.entries(oldCropBoxData).length > 0;
+    const oldCropBoxDataExist = this.cropped;
     const aspectRatio = options.aspectRatio || options.initialAspectRatio;
     const autoCropArea = Number(options.autoCropArea) || 0.8;
     const holdExistingCropArea = options.holdExistingCropArea && oldCropBoxDataExist;

@@ -318,7 +318,17 @@ export default {
       this.imageData.rotate = degree % 360;
 
       if (this.options.fitCanvasOnRotate) {
+        const cropBoxDataExist = this.cropped;
+
+        if (cropBoxDataExist) {
+          this.clear();
+        }
+
         this.initCanvas();
+
+        if (cropBoxDataExist) {
+          this.crop();
+        }
       }
 
       this.renderCanvas(true, true);
