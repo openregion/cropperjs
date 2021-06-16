@@ -5,7 +5,7 @@
  * Copyright 2015-present CIT Open Region
  * Released under the MIT license
  *
- * Date: 2021-06-16T10:37:42.072Z
+ * Date: 2021-06-16T13:01:28.175Z
  */
 
 function ownKeys(object, enumerableOnly) {
@@ -1402,8 +1402,8 @@ var render = {
       var skewXMultiplier = imageData.skewX < 0 ? -1 : 1;
       var skewYMultiplier = imageData.skewY < 0 ? -1 : 1;
       var skewMultiplier = skewXMultiplier * skewYMultiplier < 0 ? -1 : 1;
-      var skewYIncrement = imageData.skewY ? Math.abs(imageData.naturalWidth * Math.abs(imageData.scaleX || 1) * Math.sin(imageData.skewY * (Math.PI / 180)) / Math.sin((90 - imageData.skewY) * (Math.PI / 180))) : 0;
-      var skewXIncrement = imageData.skewX ? Math.abs((imageData.naturalHeight * Math.abs(imageData.scaleY || 1) + skewYIncrement * skewMultiplier) * Math.sin(imageData.skewX * (Math.PI / 180)) / Math.sin((90 - imageData.skewX) * (Math.PI / 180))) : 0;
+      var skewYIncrement = Math.abs(imageData.naturalWidth * Math.abs(imageData.scaleX || 1) * Math.tan((imageData.skewY || 0) * (Math.PI / 180)));
+      var skewXIncrement = Math.abs((imageData.naturalHeight * Math.abs(imageData.scaleY || 1) + skewYIncrement * skewMultiplier) * Math.tan((imageData.skewX || 0) * (Math.PI / 180)));
 
       var _getRotatedSizes = getRotatedSizes({
         width: imageData.naturalWidth * Math.abs(imageData.scaleX || 1) + skewXIncrement,

@@ -228,29 +228,19 @@ export default {
       const skewMultiplier = (
         skewXMultiplier * skewYMultiplier < 0
       ) ? -1 : 1;
-      const skewYIncrement = imageData.skewY
-        ? Math.abs(
-          (
-            imageData.naturalWidth
-            * Math.abs(imageData.scaleX || 1)
-            * Math.sin(imageData.skewY * (Math.PI / 180))
-          )
-          / Math.sin((90 - imageData.skewY) * (Math.PI / 180)),
+      const skewYIncrement = Math.abs(
+        imageData.naturalWidth
+        * Math.abs(imageData.scaleX || 1)
+        * Math.tan((imageData.skewY || 0) * (Math.PI / 180)),
+      );
+      const skewXIncrement = Math.abs(
+        (
+          imageData.naturalHeight
+          * Math.abs(imageData.scaleY || 1)
+          + (skewYIncrement * skewMultiplier)
         )
-        : 0;
-      const skewXIncrement = imageData.skewX
-        ? Math.abs(
-          (
-            (
-              imageData.naturalHeight
-              * Math.abs(imageData.scaleY || 1)
-              + (skewYIncrement * skewMultiplier)
-            )
-            * Math.sin(imageData.skewX * (Math.PI / 180))
-          )
-          / Math.sin((90 - imageData.skewX) * (Math.PI / 180)),
-        )
-        : 0;
+        * Math.tan((imageData.skewX || 0) * (Math.PI / 180)),
+      );
 
       const { width: naturalWidth, height: naturalHeight } = getRotatedSizes({
         width: imageData.naturalWidth * Math.abs(imageData.scaleX || 1) + skewXIncrement,
