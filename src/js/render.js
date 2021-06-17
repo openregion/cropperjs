@@ -342,12 +342,14 @@ export default {
       } else {
         cropBoxData.width = cropBoxData.height * aspectRatio;
       }
-    } else if (holdExistingCropArea) {
-      return;
     }
 
     this.cropBoxData = cropBoxData;
     this.limitCropBox(true, true);
+
+    if (!aspectRatio && holdExistingCropArea) {
+      return;
+    }
 
     // The width/height of auto crop area must large than "minWidth/Height"
     cropBoxData.width = Math.min(

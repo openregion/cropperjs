@@ -1,6 +1,10 @@
 # Changelog
 
 ## next
+## 1.6.5 (Jun 17, 2021)
+
+- Fix `holdExistingCropArea` behaviour when set to free aspect ratio
+
 ## 1.6.4 (Jun 16, 2021)
 
 - Fix `fitCanvasOnRotate` in some extra cases

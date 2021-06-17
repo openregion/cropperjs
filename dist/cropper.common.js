@@ -1,11 +1,11 @@
 /*!
- * Cropper.js v1.6.4
+ * Cropper.js v1.6.5
  * https://openregion.github.io/cropperjs
  *
  * Copyright 2015-present CIT Open Region
  * Released under the MIT license
  *
- * Date: 2021-06-16T05:29:34.056Z
+ * Date: 2021-06-17T09:18:48.922Z
  */
 
 'use strict';
@@ -1474,12 +1474,15 @@ var render = {
       } else {
         cropBoxData.width = cropBoxData.height * aspectRatio;
       }
-    } else if (holdExistingCropArea) {
-      return;
     }
 
     this.cropBoxData = cropBoxData;
-    this.limitCropBox(true, true); // The width/height of auto crop area must large than "minWidth/Height"
+    this.limitCropBox(true, true);
+
+    if (!aspectRatio && holdExistingCropArea) {
+      return;
+    } // The width/height of auto crop area must large than "minWidth/Height"
+
 
     cropBoxData.width = Math.min(Math.max(cropBoxData.width, cropBoxData.minWidth), cropBoxData.maxWidth);
     cropBoxData.height = Math.min(Math.max(cropBoxData.height, cropBoxData.minHeight), cropBoxData.maxHeight);
